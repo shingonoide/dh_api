@@ -6,11 +6,13 @@ Gem::Specification.new do |s|
   s.name        = "dh_api"
   s.version     = DhApi::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ["Rui Andrada"]
+  s.email       = ["shingonoide@gmail.com"]
+  s.homepage    = "http://shingonoide.barradev.com"
+  s.summary     = %q{Ruby gem and command line to access Dreamhost's API through json}
+  s.description = %q{I need a library to workout with Dreamhost's API, and found Dreamy but seems to be outdated.
+                     So I trying to make my own gem to trying to get better and using json
+                    }
 
   s.rubyforge_project = "dh_api"
 
