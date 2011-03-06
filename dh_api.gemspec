@@ -14,10 +14,11 @@ Gem::Specification.new do |s|
                      So I trying to make my own gem to trying to get better and using json
                     }
 
-  s.rubyforge_project = "dh_api"
+#  s.rubyforge_project = "dh_api"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+#  s.add_dependency()
 end
