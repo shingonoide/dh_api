@@ -1,6 +1,8 @@
+require 'rubygems'
 require 'uri'
 require 'net/https'
 require 'json'
+require 'hashie'
 
 module DhApi
   class Account
@@ -12,16 +14,15 @@ module DhApi
 
     # Return Hash of domains objects
     def domains
-      request('domain-list_domains')
+      request('domain-list_domains').inject([]) { |domains, domain|
+        domains << Domain.new(domain)
+      }
     end
 
     #Return Hash of users objects
     def users(passwords=false)
-      if passwords
-        request('user-list_users')
-      else
-        request('user-list_users_no_pw')
-      end
+      response = passwords ? request('user-list_users') : request('user-list_users_no_pw')
+      response
     end
 
     def dns(cmd='list', entry={})
@@ -66,23 +67,23 @@ module DhApi
       rescue => error
         raise APIRequestError, error.message
       end
+
       if %w[200 304].include?(response.code)
         data = JSON.parse(response.body)
       elsif response.code == '503'
         raise APIRequestError, response.message
       elsif response.code == '401'
-        raise APIRequestError, 'Authentication error. please check if username and key are correct'
+        raise APIRequestError, 'Authentication error. please check if your key are correct'
       else
         raise APIRequestError, "Dreamhost API response: ##{response.code}, message: #{response.message}"
       end
-      if data['result'] == 'success'
-        return data['data']
-      else
-        raise APIRequestError, "#{data['data']}: #{data['reason']}"
-      end
+
+      raise APIRequestError, "#{data['data']}: #{data['reason']}" unless data['result'] == 'success'
+      data['data']
     end
   end
 
+  class Domain < Hashie::Mash; end
   class APIRequestError < StandardError;
   end
   class APIParameterError < StandardError;
