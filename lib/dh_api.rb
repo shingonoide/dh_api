@@ -22,7 +22,9 @@ module DhApi
     #Return Hash of users objects
     def users(passwords=false)
       response = passwords ? request('user-list_users') : request('user-list_users_no_pw')
-      response
+      response.inject([]) { |users, user|
+        users << User.new(user)
+      }
     end
 
     def dns(cmd='list', entry={})
@@ -84,6 +86,7 @@ module DhApi
   end
 
   class Domain < Hashie::Mash; end
+  class User < Hashie::Mash; end
   class APIRequestError < StandardError;
   end
   class APIParameterError < StandardError;
