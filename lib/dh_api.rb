@@ -30,7 +30,9 @@ module DhApi
     def dns(cmd='list', entry={})
       case cmd
         when 'list'
-          request('dns-list_records')
+          request('dns-list_records').inject([]){ |dnses, dns|
+            dnses << DNS.new(dns)
+          }
         when 'add'
           request('dns-add_record', {'record' => entry['record'], 'type' => entry['type'], 'value' => entry['value']})
         when 'remove'
@@ -87,6 +89,7 @@ module DhApi
 
   class Domain < Hashie::Mash; end
   class User < Hashie::Mash; end
+  class DNS < Hashie::Mash; end
   class APIRequestError < StandardError;
   end
   class APIParameterError < StandardError;
