@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'uri'
 require 'net/https'
 require 'json'
